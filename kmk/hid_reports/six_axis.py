@@ -308,7 +308,7 @@ POINTER = usb_hid.Device(
     usage_page=0x01,
     usage=0x02,
     report_ids=(0x06,),
-    in_report_lengths=(6,),
+    in_report_lengths=(5,),
     out_report_lengths=(1,),
 )
 
