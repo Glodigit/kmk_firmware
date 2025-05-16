@@ -268,7 +268,6 @@ report_descriptor = bytes(
         0x81, 0x06,        #     Input (Data,Var,Rel,No Wrap,Linear,Preferred State,No Null Position)
         # Scroll
         0xA1, 0x02,        #     Collection (Logical)
-        # 0x05, 0x01,        #        Usage Page (Generic Desktop Ctrls)
         0x09, 0x48,        #        Usage (Resolution Multiplier)
         0x15, 0x00,        #        Logical Minimum (0)
         0x25, 0x01,        #        Logical Maximum (1)
@@ -309,7 +308,7 @@ POINTER = usb_hid.Device(
     usage=0x02,
     report_ids=(0x06,),
     in_report_lengths=(5,),
-    out_report_lengths=(0,),
+    out_report_lengths=(1,),
 )
 
 
