@@ -13,17 +13,8 @@ class HiResScrollKey(Key):
 
 
 class HiResScroll(Module):
-    def __init__(
-        self,
-        enabled=True,
-    ):
-        self._enabled = enabled
-        make_key(
-            names=('MW_HR_SCROLL', 'MW_HR'),
-            constructor=HiResScrollKey,
-            on_press=self._hires_toggle,
-            code=1,
-        )
+    def __init__(self):
+        pass
 
     def during_bootup(self, keyboard):
         # Find Pointer device
@@ -33,10 +24,9 @@ class HiResScroll(Module):
                 and device.out_report_lengths[0] == 1
             ):
                 self.hid = device
-        # Runtime check
-        self.enabled = self._enabled
+        if self.hid is None:
+            raise RuntimeError
         
-
     def before_matrix_scan(self, keyboard):
         return
 
@@ -44,7 +34,8 @@ class HiResScroll(Module):
         return
 
     def before_hid_send(self, keyboard):
-        return
+        #if self.hid.
+        report = self.hid.get_last_received_report()
 
     def after_hid_send(self, keyboard):
         return
@@ -55,18 +46,3 @@ class HiResScroll(Module):
     def on_powersave_disable(self, keyboard):
         return
     
-    def _hires_toggle(self, key, keyboard, *args, **kwargs):
-        self.enabled = not self.enabled
-
-    @property
-    def enabled(self):
-        return self._enabled
-    @enabled.setter
-    def enabled(self, value):
-        if (value == True
-            and self.hid is None
-        ):
-            raise RuntimeError
-        else:
-            self._enabled = value
-        
