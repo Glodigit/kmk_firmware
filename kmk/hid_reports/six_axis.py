@@ -290,10 +290,10 @@ report_descriptor = bytes(
         0x35, 0x01,        #        Physical Minimum (1)
         0x45, 0x78,        #        Physical Maximum (120)
         0x95, 0x01,        #        Report Count (1)
-        0x75, 0x01,        #        Report Size (1)
+        0x75, 0x02,        #        Report Size (2)
         0xB1, 0x02,        #        Feature (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position,Non-volatile)
         0x95, 0x01,        #        Report Count (1)
-        0x75, 0x07,        #        Report Size (7)
+        0x75, 0x06,        #        Report Size (6)
         0xB1, 0x03,        #        Feature (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position,Non-volatile)
         0xC0,              #     End Collection
         0xC0,              #   End Collection

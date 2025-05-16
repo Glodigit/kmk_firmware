@@ -170,6 +170,7 @@ class PointingDeviceReport(Report):
         axis.delta -= delta
         try:
             self.buffer[axis.code + 1] = 0xFF & delta
+            if axis.code > 1: self.buffer[5] = 0x01
             self.pending = True
         except IndexError:
             if debug.enabled:
@@ -183,6 +184,14 @@ class HSPointingDeviceReport(PointingDeviceReport):
     def __init__(self):
         super().__init__(_REPORT_SIZE_MOUSE_HSCROLL)
 
+class HSPointingDevice:
+    def __init__(self, device):
+        self.device = device
+
+    def send_report(self, buffer):
+        self.device.get_last_received_report()
+        print(buffer)
+        self.device.send_report(buffer)  
 
 class SixAxisDeviceReport(Report):
     def __init__(self, size=_REPORT_SIZE_SIXAXIS):
@@ -295,11 +304,12 @@ class AbstractHID:
             try:
                 report = PointingDeviceReport()
                 device.send_report(report.buffer)
+                self.report_map.update(report.get_action_map())
+                self.device_map[report] = device
             except ValueError:
                 report = HSPointingDeviceReport()
-
-            self.report_map.update(report.get_action_map())
-            self.device_map[report] = device
+                self.report_map.update(report.get_action_map())
+                self.device_map[report] = HSPointingDevice(device)
 
     def setup_sixaxis_hid(self):
         if device := find_device(self.devices, _USAGE_PAGE_SIXAXIS, _USAGE_SIXAXIS):
